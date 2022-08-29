@@ -36,6 +36,8 @@ export function FooterContainer() {
           <Footer.Link href="#">Contact us</Footer.Link>
         </Footer.Column>
       </Footer.Row>
+      <Footer.Break />
+      <Footer.Text>Netflix United States </Footer.Text>
     </Footer>
   );
 }
