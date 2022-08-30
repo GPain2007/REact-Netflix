@@ -31,21 +31,24 @@ Accordion.Item = function AccordionItem({ children, ...restProps }) {
   const [toggleShow, setToggleShow] = useState(false);
 
   return (
-    <ToggleContext.Provider value={(toggleShow, setToggleShow)}>
+    <ToggleContext.Provider
+      value={{ toggleState: [toggleShow, setToggleShow] }}
+    >
       <Item {...restProps}>{children}</Item>;
     </ToggleContext.Provider>
   );
 };
 
 Accordion.Header = function AccordionHeader({ children, ...restProps }) {
-  const { toggleShow, setToggleShow } = useContext(ToggleContext);
+  const { toggleState } = useContext(ToggleContext);
+  const [toggleShow, setToggleShow] = toggleState;
 
   return (
     <Header
       onClick={() => setToggleShow((toggleShow) => !toggleShow)}
       {...restProps}
     >
-      <pre>{JSON.stringify(toggleShow, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(toggleShow, null, 2)}</pre> */}
       {children}
       {toggleShow ? (
         <img src="/images/icons/close-slim.png" alt="Close" />
@@ -56,17 +59,9 @@ Accordion.Header = function AccordionHeader({ children, ...restProps }) {
   );
 };
 
-// Accordion.Header = function AccordionHeader({ children, ...restProps }) {
-//   const { isShown, toggleIsShown } = useContext(ToggleContext);
-//   return (
-//     <Header onClick={() => toggleIsShown(!isShown)} {...restProps}>
-//       {children}
-//     </Header>
-//   );
-// };
-
 Accordion.Body = function AccordionBody({ children, ...restProps }) {
-  const { toggleShow } = useContext(ToggleContext);
+  const { toggleState } = useContext(ToggleContext);
+  const [toggleShow] = toggleState;
 
   return toggleShow ? <Body {...restProps}> {children}</Body> : null;
 };
